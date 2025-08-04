@@ -65,17 +65,36 @@ World Congress 2025
 ## Slide 5: Methods - Architecture (1 min)
 ### Deep Learning with Feature Fusion
 
-```
-                    ResNet18 Path:
-CT Slice (224×224) → ResNet18 → 512 features → Neural Network → Weight₁
-                                      ↓
-                               19 Tabular Features
-
-                    LightGBM Path:
-19 Tabular Features → LightGBM → Weight₂
-
-                    Ensemble:
-Weight₁ × 0.84 + Weight₂ × 0.16 → Final Weight (kg)
+```mermaid
+graph TB
+    subgraph "ResNet18 Path"
+        CT[CT Slice<br/>224×224] --> RN[ResNet18]
+        RN --> F512[512 features]
+        F512 --> NN[Neural Network]
+        NN --> W1[Weight₁]
+        F512 -.-> TAB1[19 Tabular Features]
+    end
+    
+    subgraph "LightGBM Path"
+        TAB2[19 Tabular Features] --> LGB[LightGBM]
+        LGB --> W2[Weight₂]
+    end
+    
+    W1 --> ENS[Weight₁ × 0.84 +<br/>Weight₂ × 0.16]
+    W2 --> ENS
+    ENS --> FINAL[Final Weight kg]
+    
+    style CT fill:#E3F2FD
+    style RN fill:#C8E6C9
+    style F512 fill:#FFF9C4
+    style NN fill:#FFCDD2
+    style W1 fill:#F5F5F5
+    style TAB1 fill:#E1F5FE
+    style TAB2 fill:#E1F5FE
+    style LGB fill:#C8E6C9
+    style W2 fill:#F5F5F5
+    style ENS fill:#FFE082
+    style FINAL fill:#FFAB91
 ```
 
 **Model Components:**
